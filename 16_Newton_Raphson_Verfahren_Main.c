@@ -41,3 +41,6 @@ int main()
     printf("Eine mögliche Nullstelle der Funktion f(x)=(x-3)^2 liegt bei X = %lf\n", (*x_Wert_prt));
     return 1;
 }
+/* 
+ * total: 10/10 
+ */ 

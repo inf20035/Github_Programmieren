@@ -40,7 +40,7 @@ int printList(listElement *start){
     while(currElem->nextElem != NULL)/*Durch die Liste iterieren*/
     {
         currElem = currElem->nextElem;/*Zum nächsten Element springen*/
-        printf("%d. element:\n{\nlast name: %s\nfirst name: %s\nage: %s\n}\n",
+        printf("%d. element:\n{\nlast name: %s\nfirst name: %s\nage: %d\n}\n",
         i, currElem->lastName, currElem->firstName, currElem->age);/*ausgeben des Listenelements*/
         i++;  
     }
@@ -66,7 +66,7 @@ int delListElem(listElement *start){
     while(currElem->nextElem != NULL)/*Durch die Liste iterieren*/
     {
         /*Abfrage ob dieses Element gelöscht werden soll*/
-        printf("Do you want to delete %d. entry? No(0) or Yes(1)\n{\nlast name: %s\nfirst name: %s\nage: %s\n}\n",
+        printf("Do you want to delete %d. entry? No(0) or Yes(1)\n{\nlast name: %s\nfirst name: %s\nage: %d\n}\n",
         i, currElem->nextElem->lastName, currElem->nextElem->firstName, currElem->nextElem->age);
         i++;
         scanf("%d",&delete);
@@ -77,7 +77,7 @@ int delListElem(listElement *start){
             delElem = currElem->nextElem;
             currElem->nextElem = currElem->nextElem->nextElem;
             free(delElem);
-            printf("%d. element was deleted\n");                    
+            printf("element was deleted\n"); // missing int argument: -1Pkt    
             return 1;
         }else/*Zum nächsten Element übergehen*/
         {
@@ -107,7 +107,7 @@ int delList(listElement *start){
         delElem = currElem->nextElem;
         currElem->nextElem = currElem->nextElem->nextElem;
         free(delElem);
-        printf("%d. element was deleted\n");                    
+        printf("element was deleted\n"); // missing int argument                    
 
         currElem = currElem->nextElem;
     }
@@ -139,7 +139,7 @@ int saveList(listElement *start){
 
     openFile = fopen(filename, "w");/*file wird geöffnet um hineinzuschreiben*/
 
-    if (openFile == NULL);/*überprüfen ob file geöffnet wurde*/
+    if (openFile == NULL) // no semicolon here !!! /*überprüfen ob file geöffnet wurde*/
     {
         printf("cant open file\n");
         return 0;
@@ -149,7 +149,7 @@ int saveList(listElement *start){
     while(currElem->nextElem != NULL)/*Durch die Liste iterieren und Inhalte Zeile für Zeile in die <liste übertragen*/
     {
         currElem = currElem->nextElem;
-        fprintf(openFile, "%s\n%s\n%s\n\n", currElem->lastName, currElem->firstName, currElem->age);
+        fprintf(openFile, "%s\n%s\n%d\n\n", currElem->lastName, currElem->firstName, currElem->age);
     }
     
     printf("save complete.\n");
@@ -168,14 +168,14 @@ int loadList(listElement *start){
    new = (listElement *)malloc(sizeof(listElement));/*Variable um die neuen Elemente zu erstellen*/
 
    int line = 0;/*Variable zum ermitteln ob die Informaiton der lastName, firstName oder das age ist*/
-   int temp;/*Zeile*/
+   char temp; // char here ? /*Zeile*/ 
 
    FILE *fileprt;
    char filename[50];
 
    system("dir *.txt");
    printf("filename of the file you want to open?\n");
-   scanf("%s", &filename);/*filename abfragen*/
+   scanf("%s", filename);// array is already pointer: -1Pkt /*filename abfragen*/
 
    fileprt = fopen(filename, "r");/*file öffnen*/
 
@@ -185,19 +185,19 @@ int loadList(listElement *start){
        return 0;
    }
 
-   while(fscanf(fileprt,"%s", &temp) != EOF)/*File auslesen*/
+   while(fscanf(fileprt,"%c", &temp) != EOF) // type ! /*File auslesen*/
    {
        currElem->nextElem = new;
-       new->nextElem == NULL;
+       new->nextElem = NULL; // no == here simple = is needed !
 
        /*Informationen der richtigen Zeile in die neu erstellten Listenelemente eintragen*/
        if(line==0)
        {
-           strcpy(new->lastName, temp);
+           strcpy(new->lastName, &temp); // i think you need a char pointer here? -1Pkt
        }
        if(line==1)
        {
-           strcpy(new->firstName, temp);
+           strcpy(new->firstName, &temp);
        }
        if(line==2)
        {
@@ -228,7 +228,7 @@ void stringToLower(char *string) {
     printf("\n>>stringToLower fcn is tbd.\n\n");
 
 }
-
+// 7/10 you have many data type mismatches. Be careful !
 
 
 

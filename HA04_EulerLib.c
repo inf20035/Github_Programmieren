@@ -137,12 +137,12 @@ void showResults_MSD(simHandle* handle) {
 
     /*print data to text file*/
 
-    FILE* fp = fopen("simData.txt", "r");
+    FILE* fp = fopen("simData.txt", "w");
 
 
     for(int i = 0; i < (int) ceil((handle->simTime / handle->stepSize)); i++) {
 
-        fprintf(fp, "%lf %lf %lf\n", (i * (handle -> stepSize)), handle -> stateVec[i * 2], handle -> stateVec[i * 3 + 1]); 
+        fprintf(fp, "%lf %lf %lf\n", (i * (handle -> stepSize)), handle -> stateVec[i * 2], handle -> stateVec[i * 2 + 1]); 
 
     }
 
